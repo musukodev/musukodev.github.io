@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth scroll-pt-20">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Personal Portfolio - Web Developer & Computer Science Student"
+    />
+    <title>Portfolio | Personal Branding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: "#6C63FF",
+                dark: "#5A52D5",
+                light: "#8B83FF",
+              },
+              accent: "#00D4AA",
+              dark: {
+                DEFAULT: "#0A0E1A",
+                card: "#111827",
+                hover: "#1A2332",
+              },
+              text: {
+                main: "#E8ECF4",
+                secondary: "#9CA3AF",
+                muted: "#6B7280",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            boxShadow: {
+              custom: "0 8px 32px rgba(0, 0, 0, 0.3)",
+            },
+            animation: {
+              float1: "float 8s ease-in-out infinite",
+              float2: "float 10s ease-in-out infinite reverse",
+              float3: "float 12s ease-in-out infinite",
+              spin_slow: "spin 20s linear infinite",
+              scrollwheel: "scrollwheel 2s ease-in-out infinite",
+              bounce_custom: "bounce_custom 2s ease-in-out infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0) scale(1)" },
+                "50%": { transform: "translateY(-30px) scale(1.05)" },
+              },
+              scrollwheel: {
+                "0%": { opacity: "1", transform: "translateY(0)" },
+                "100%": { opacity: "0", transform: "translateY(8px)" },
+              },
+              bounce_custom: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(8px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Animasi Kustom yang sulit diubah menjadi pure Tailwind */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Pseudo-element Navbar */
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #000;
+        transition: 0.3s ease;
+      }
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 100%;
+      }
+
+      /* Hamburger Icon */
+      .hamburger,
+      .hamburger::before,
+      .hamburger::after {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: #000;
+        transition: 0.3s ease;
+        position: relative;
+      }
+      .hamburger::before,
+      .hamburger::after {
+        content: "";
+        position: absolute;
+      }
+      .hamburger::before {
+        top: -7px;
+      }
+      .hamburger::after {
+        top: 7px;
+      }
+
+      /* Scrolled Navbar JS Toggle */
+      .navbar.scrolled {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Mobile Menu JS Toggle */
+      @media (max-width: 768px) {
+        #nav-menu.open {
+          right: 0;
+        }
+      }
+
+      /* Garis Timeline */
+      /* Garis Timeline removed for anime.js */
+
+      /* Hide Scrollbar for Carousel */
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-black font-sans overflow-x-hidden leading-relaxed">
+    <nav
+      id="navbar"
+      class="navbar fixed top-5 left-1/2 -translate-x-1/2 w-[92%] max-w-[1000px] z-50 py-3.5 px-6 md:px-8 transition-all duration-300 bg-white/90 backdrop-blur-md rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-gray-100"
+    >
+      <div class="flex justify-between items-center w-full">
+        <!-- Logo -->
+        <a href="#hero" class="flex items-center gap-3 group">
+          <div
+            class="w-8 h-8 rounded-lg bg-[#2b426a] text-white flex items-center justify-center font-serif text-[1.1rem] font-bold pb-0.5 shadow-sm transition-transform group-hover:scale-105"
+          >
+            F
+          </div>
+          <span class="font-bold text-[1.1rem] text-[#2b426a]">Fwz</span>
+        </a>
+
+        <!-- Hamburger -->
+        <button
+          id="nav-toggle"
+          class="md:hidden bg-transparent border-none cursor-pointer p-2 z-[1001]"
+          aria-label="Toggle navigation"
+        >
+          <span class="hamburger"></span>
+        </button>
+
+        <!-- Nav Links -->
+        <ul
+          id="nav-menu"
+          class="fixed md:static top-0 -right-full md:right-0 w-[280px] md:w-auto h-screen md:h-auto bg-white md:bg-transparent flex flex-col md:flex-row justify-center md:justify-end items-center gap-7 transition-all duration-300 border-l border-black/10 md:border-none z-[1000]"
+        >
+          <li>
+            <a
+              href="#about"
+              class="nav-link text-[0.95rem] font-medium text-slate-500 hover:text-[#2b426a] transition-all relative flex items-center gap-2"
+              ><i class="far fa-user text-[1.05rem]"></i> Tentang</a
+            >
+          </li>
+          <li>
+            <a
+              href="#education"
+              class="nav-link text-[0.95rem] font-medium text-slate-500 hover:text-[#2b426a] transition-all relative flex items-center gap-2"
+              ><i class="fas fa-graduation-cap text-[1.05rem]"></i>
+              Pendidikan</a
+            >
+          </li>
+          <li>
+            <a
+              href="#projects"
+              class="nav-link text-[0.95rem] font-medium text-slate-500 hover:text-[#2b426a] transition-all relative flex items-center gap-2"
+              ><i class="fas fa-briefcase text-[1.05rem]"></i> Proyek</a
+            >
+          </li>
+          <li>
+            <a
+              href="#skills"
+              class="nav-link text-[0.95rem] font-medium text-slate-500 hover:text-[#2b426a] transition-all relative flex items-center gap-2"
+              ><i class="fas fa-trophy text-[1.05rem]"></i> Keahlian</a
+            >
+          </li>
+          <li>
+            <a
+              href="#contact"
+              class="nav-link text-[0.95rem] font-medium text-slate-500 hover:text-[#2b426a] transition-all relative flex items-center gap-2"
+              ><i class="far fa-envelope text-[1.05rem]"></i> Kontak</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section (Putih) -->
+    <section
+      id="hero"
+      class="min-h-screen flex flex-col justify-center items-center relative overflow-hidden py-24 bg-white text-black"
+    >
+      <div class="absolute inset-0 pointer-events-none">
+        <div
+          class="anime-blob absolute rounded-[40%] blur-[80px] opacity-40 w-[500px] h-[500px] bg-gray-300 -top-[10%] -right-[5%]"
+        ></div>
+        <div
+          class="anime-blob absolute rounded-[45%] blur-[80px] opacity-40 w-[400px] h-[400px] bg-gray-200 -bottom-[10%] -left-[5%]"
+        ></div>
+        <div
+          class="anime-blob absolute rounded-[35%] blur-[80px] opacity-40 w-[300px] h-[300px] bg-gray-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        ></div>
+      </div>
+      <div
+        class="max-w-[1100px] mx-auto px-6 flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16 w-full text-center md:text-left pt-24 md:pt-0"
+      >
+        <div class="flex-1">
+          <p
+            class="anime-hero-subtitle opacity-0 translate-y-8 text-[1.1rem] text-gray-600 font-medium mb-2"
+          >
+            Halo, saya
+          </p>
+          <h1
+            class="anime-hero-title opacity-0 translate-y-8 text-5xl md:text-[3.5rem] font-extrabold leading-[1.1] mb-3 bg-gradient-to-br from-black from-30% to-gray-500 bg-clip-text"
+          >
+            Fawwaz Khairiy Wahid
+          </h1>
+          <p
+            class="anime-hero-subtitle opacity-0 translate-y-8 text-xl text-black font-semibold mb-4"
+          >
+            Mahasiswa Rekayasa Perangkat Lunak
+          </p>
+          <p
+            class="animate-on-scroll text-gray-600 max-w-[480px] mx-auto md:mx-0 mb-7 text-base"
+          >
+            Seorang mahasiswa yang passionate di bidang pengembangan perangkat
+            lunak, tertarik pada web development dan selalu bersemangat untuk
+            belajar teknologi baru.
+          </p>
+          <div
+            class="animate-on-scroll flex gap-4 justify-center md:justify-start mb-8 flex-wrap"
+          >
+            <a
+              href="#projects"
+              class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-[0.95rem] transition-all bg-black text-white hover:bg-gray-800 hover:-translate-y-0.5 shadow-lg"
+              >Lihat Proyek</a
+            >
+            <a
+              href="#contact"
+              class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-[0.95rem] transition-all bg-transparent text-black border-2 border-black hover:bg-black hover:text-white hover:-translate-y-0.5"
+              >Hubungi Saya</a
+            >
+          </div>
+          <div
+            class="animate-on-scroll flex gap-4 justify-center md:justify-start"
+          >
+            <a
+              href="https://github.com/musukodev"
+              target="_blank"
+              aria-label="GitHub"
+              class="w-11 h-11 rounded-xl border border-gray-300 flex items-center justify-center text-xl text-gray-700 transition-all hover:border-black hover:text-white hover:bg-black hover:-translate-y-1"
+            >
+              <i class="fab fa-github"></i>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/khairiyid/"
+              target="_blank"
+              aria-label="LinkedIn"
+              class="w-11 h-11 rounded-xl border border-gray-300 flex items-center justify-center text-xl text-gray-700 transition-all hover:border-black hover:text-white hover:bg-black hover:-translate-y-1"
+            >
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a
+              href="mailto:tutor.programing12@gmail.com"
+              aria-label="Email"
+              class="w-11 h-11 rounded-xl border border-gray-300 flex items-center justify-center text-xl text-gray-700 transition-all hover:border-black hover:text-white hover:bg-black hover:-translate-y-1"
+            >
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <div
+          class="animate-on-scroll flex-shrink-0 w-[200px] h-[200px] md:w-[280px] md:h-[280px] mx-auto relative mt-8 md:mt-0 mb-8 md:mb-0"
+        >
+          <div
+            class="w-full h-full rounded-full bg-gray-100 flex items-center justify-center border-[3px] border-gray-200 relative z-10 shadow-xl overflow-hidden"
+          >
+            <img
+              src="https://terpalb25.web.id/storage/class-media/students/7srosmjQSWZ6aWDZK7D2sgHqxegYrzECDJf2pUOT.webp"
+              alt="Profile Picture"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div
+            class="absolute -inset-[12px] rounded-full border-2 border-dashed border-black opacity-20 animate-spin_slow"
+          ></div>
+
+          <!-- Floating Icons -->
+          <!-- HTML5 -->
+          <div
+            class="anime-floating-icon opacity-0 absolute top-[10%] -left-[10%] w-12 h-12 md:w-14 md:h-14 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.15)] border border-gray-100 flex items-center justify-center text-2xl md:text-3xl text-[#E34F26] z-20"
+          >
+            <i class="fab fa-html5"></i>
+          </div>
+          <!-- CSS3 -->
+          <div
+            class="anime-floating-icon opacity-0 absolute top-[5%] -right-[5%] w-12 h-12 md:w-14 md:h-14 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.15)] border border-gray-100 flex items-center justify-center text-2xl md:text-3xl text-[#1572B6] z-20"
+          >
+            <i class="fab fa-css3-alt"></i>
+          </div>
+          <!-- JS -->
+          <div
+            class="anime-floating-icon opacity-0 absolute bottom-[15%] -right-[10%] w-12 h-12 md:w-14 md:h-14 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.15)] border border-gray-100 flex items-center justify-center text-2xl md:text-3xl text-[#F7DF1E] z-20"
+          >
+            <i class="fab fa-js-square"></i>
+          </div>
+          <!-- Project Badge -->
+          <div
+            class="anime-floating-icon opacity-0 absolute -bottom-[8%] left-1/2 -translate-x-1/2 bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.15)] border border-gray-100 px-4 py-2.5 flex items-center gap-3 z-20 whitespace-nowrap"
+          >
+            <div
+              class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-sm"
+            >
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="text-left">
+              <p class="text-[0.95rem] font-bold text-black leading-tight">
+                10+
+              </p>
+              <p
+                class="text-[0.65rem] text-gray-500 uppercase tracking-wider font-semibold"
+              >
+                Proyek Selesai
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a
+        href="#about"
+        class="absolute bottom-8 animate-bounce_custom"
+        aria-label="Scroll down"
+      >
+        <div
+          class="w-[26px] h-[40px] border-2 border-gray-500 rounded-2xl flex justify-center pt-2"
+        >
+          <div
+            class="w-1 h-2 bg-gray-500 rounded-full animate-scrollwheel"
+          ></div>
+        </div>
+      </a>
+    </section>
+
+    <!-- Contact / Footer (Hitam) -->
+    <footer
+      id="contact"
+      class="pt-20 bg-black text-white border-t border-gray-800"
+    >
+      <div class="max-w-[1100px] mx-auto px-6">
+        <div class="text-center mb-12">
+          <div class="animate-on-scroll">
+            <h2 class="text-3xl font-extrabold mb-3 text-white">
+              Mari Terhubung!
+            </h2>
+            <p class="text-gray-400 max-w-[480px] mx-auto mb-6">
+              Tertarik untuk berkolaborasi atau hanya ingin menyapa? Jangan ragu
+              untuk menghubungi saya.
+            </p>
+            <a
+              href="mailto:tutor.programing12@gmail.com"
+              class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-[0.95rem] transition-all bg-white text-black hover:bg-gray-200 hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              <i class="fas fa-paper-plane"></i> Kirim Email
+            </a>
+          </div>
+          <div
+            class="animate-on-scroll flex flex-col md:flex-row justify-center items-center gap-5 mt-8"
+          >
+            <a
+              href="https://github.com/musukodev"
+              target="_blank"
+              class="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 border border-gray-800 text-gray-300 text-[0.9rem] transition-all hover:border-white hover:bg-white hover:text-black hover:-translate-y-1 w-full md:w-auto justify-center"
+              aria-label="GitHub"
+            >
+              <i class="fab fa-github text-[1.2rem]"></i>
+              <span>GitHub</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/khairiyid/"
+              target="_blank"
+              class="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 border border-gray-800 text-gray-300 text-[0.9rem] transition-all hover:border-white hover:bg-white hover:text-black hover:-translate-y-1 w-full md:w-auto justify-center"
+              aria-label="LinkedIn"
+            >
+              <i class="fab fa-linkedin-in text-[1.2rem]"></i>
+              <span>LinkedIn</span>
+            </a>
+            <a
+              href="mailto:tutor.programing12@gmail.com"
+              class="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 border border-gray-800 text-gray-300 text-[0.9rem] transition-all hover:border-white hover:bg-white hover:text-black hover:-translate-y-1 w-full md:w-auto justify-center"
+              aria-label="Email"
+            >
+              <i class="fas fa-envelope text-[1.2rem]"></i>
+              <span>Email</span>
+            </a>
+          </div>
+        </div>
+        <div
+          class="text-center py-6 border-t border-gray-800 text-gray-500 text-[0.85rem]"
+        >
+          <p>&copy; 2026 Fawwaz Khairiy Wahid.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script>
+      // ============ Navbar Scroll Effect ============
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        navbar.classList.toggle("scrolled", window.scrollY > 50);
+      });
+
+      // ============ Mobile Menu Toggle ============
+      const navToggle = document.getElementById("nav-toggle");
+      const navMenu = document.getElementById("nav-menu");
+
+      navToggle.addEventListener("click", () => {
+        navMenu.classList.toggle("open");
+        navToggle.classList.toggle("active");
+      });
+
+      // Close menu on link click
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          navMenu.classList.remove("open");
+          navToggle.classList.remove("active");
+        });
+      });
+
+      // ============ Active Nav Link on Scroll ============
+      const sections = document.querySelectorAll(".section, .footer");
+      const navLinks = document.querySelectorAll(".nav-link");
+
+      function updateActiveLink() {
+        let current = "";
+        sections.forEach((section) => {
+          const top = section.offsetTop - 120;
+          if (window.scrollY >= top) {
+            current = section.getAttribute("id");
+          }
+        });
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + current) {
+            link.classList.add("active");
+          }
+        });
+      }
+      window.addEventListener("scroll", updateActiveLink);
+
+      // ============ Scroll Animations ============
+      const animatedElements = document.querySelectorAll(".animate-on-scroll");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                entry.target.classList.add("visible");
+              }, index * 80);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+
+      animatedElements.forEach((el) => observer.observe(el));
+
+      // ============ Skill Bar & Counter Animation ============
+      const skillBars = document.querySelectorAll(".skill-progress");
+
+      // Inject counters for each skill bar dynamically
+      skillBars.forEach((bar) => {
+        const row = bar.parentElement.parentElement;
+        const counter = document.createElement("span");
+        counter.className =
+          "anime-counter text-[0.85rem] font-bold text-white min-w-[40px] text-right font-mono";
+        counter.innerText = "0%";
+        row.appendChild(counter);
+        bar._counter = counter; // store reference
+      });
+
+      const skillObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const width = parseInt(entry.target.getAttribute("data-width"));
+              const counter = entry.target._counter;
+
+              // Bar width CSS animation
+              entry.target.style.width = width + "%";
+
+              // Anime.js number counter
+              if (typeof anime !== "undefined" && counter) {
+                const counterObj = { val: 0 };
+                anime({
+                  targets: counterObj,
+                  val: width || 0,
+                  round: 1,
+                  easing: "easeOutExpo",
+                  duration: 1000,
+                  update: function () {
+                    counter.innerHTML = counterObj.val + "%";
+                  },
+                });
+              } else if (counter) {
+                // Fallback if anime.js fails to load
+                counter.innerHTML = (width || 0) + "%";
+              }
+
+              skillObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 },
+      );
+
+      skillBars.forEach((bar) => skillObserver.observe(bar));
+
+      // ============ Projects Carousel Navigation ============
+      const projectsCarousel = document.getElementById("projects-carousel");
+      const prevProjectBtn = document.getElementById("prev-project");
+      const nextProjectBtn = document.getElementById("next-project");
+
+      if (projectsCarousel && prevProjectBtn && nextProjectBtn) {
+        const updateCarouselButtons = () => {
+          // Disable prev button if at the start
+          prevProjectBtn.disabled = projectsCarousel.scrollLeft <= 0;
+          // Disable next button if at the end (with 2px margin of error for fractional pixels)
+          nextProjectBtn.disabled =
+            projectsCarousel.scrollLeft >=
+            projectsCarousel.scrollWidth - projectsCarousel.clientWidth - 2;
+        };
+
+        // Listen to scroll events to update button states
+        projectsCarousel.addEventListener("scroll", updateCarouselButtons);
+
+        // Initial check
+        updateCarouselButtons();
+        // Also check on window resize
+        window.addEventListener("resize", updateCarouselButtons);
+
+        prevProjectBtn.addEventListener("click", () => {
+          // Scroll left by one card width + gap (28px = 1.75rem)
+          const cardWidth = projectsCarousel.firstElementChild.clientWidth + 28;
+          projectsCarousel.scrollBy({ left: -cardWidth, behavior: "smooth" });
+        });
+
+        nextProjectBtn.addEventListener("click", () => {
+          // Scroll right by one card width + gap (28px = 1.75rem)
+          const cardWidth = projectsCarousel.firstElementChild.clientWidth + 28;
+          projectsCarousel.scrollBy({ left: cardWidth, behavior: "smooth" });
+        });
+      }
+
+      // ============ Anime.js Advanced Animations ============
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof anime !== "undefined") {
+          // 1. Text Staggering (Hero)
+          const heroTitle = document.querySelector(".anime-hero-title");
+          if (heroTitle) {
+            heroTitle.innerHTML = heroTitle.textContent.replace(
+              /\S/g,
+              "<span class='letter inline-block' style='opacity: 0'>$&</span>",
+            );
+            heroTitle.classList.remove("opacity-0", "translate-y-8");
+
+            anime
+              .timeline({ loop: false })
+              .add({
+                targets: ".anime-hero-subtitle",
+                translateY: [20, 0],
+                opacity: [0, 1],
+                easing: "easeOutExpo",
+                duration: 1000,
+                delay: anime.stagger(200, { start: 300 }),
+              })
+              .add(
+                {
+                  targets: ".anime-hero-title .letter",
+                  translateY: [40, 0],
+                  translateZ: 0,
+                  opacity: [0, 1],
+                  easing: "easeOutExpo",
+                  duration: 1200,
+                  delay: (el, i) => 30 * i,
+                },
+                "-=600",
+              );
+          }
+
+          // 2. Organic Floating Icons (Hero)
+          anime({
+            targets: ".anime-floating-icon",
+            opacity: [0, 1],
+            scale: [0.5, 1],
+            duration: 1000,
+            easing: "easeOutElastic(1, .8)",
+            delay: anime.stagger(150, { start: 1000 }),
+            complete: function () {
+              anime({
+                targets: ".anime-floating-icon",
+                translateX: () => anime.random(-15, 15),
+                translateY: () => anime.random(-15, 15),
+                rotate: () => anime.random(-8, 8),
+                easing: "easeInOutQuad",
+                duration: () => anime.random(2500, 4000),
+                direction: "alternate",
+                loop: true,
+              });
+            },
+          });
+
+          // 3. Background Morphing Blobs (Hero)
+          anime({
+            targets: ".anime-blob",
+            scale: [
+              { value: 1.1, easing: "easeInOutSine", duration: 4000 },
+              { value: 1, easing: "easeInOutSine", duration: 4000 },
+            ],
+            translateX: () => anime.random(-50, 50),
+            translateY: () => anime.random(-50, 50),
+            borderRadius: () =>
+              anime.random(30, 50) +
+              "% " +
+              anime.random(30, 50) +
+              "% " +
+              anime.random(30, 50) +
+              "% " +
+              anime.random(30, 50) +
+              "%",
+            easing: "easeInOutQuad",
+            duration: () => anime.random(3000, 5000),
+            direction: "alternate",
+            loop: true,
+          });
+
+          // 3. Timeline Line Drawing (Education)
+          const timelineObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  anime({
+                    targets: ".anime-timeline-line",
+                    scaleY: [0, 1],
+                    easing: "easeInOutSine",
+                    duration: 1500,
+                  });
+                  timelineObserver.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.3 },
+          );
+
+          const timelineLine = document.querySelector(".anime-timeline-line");
+          if (timelineLine) {
+            timelineObserver.observe(timelineLine.parentElement);
+          }
+
+          // 5. Cursor Stagger Trail Animation
+          const cursorDots = [];
+          const numDots = 5;
+          for (let i = 0; i < numDots; i++) {
+            const dot = document.createElement("div");
+            // Styling to match the reference: yellow circles
+            dot.className =
+              "pointer-events-none fixed w-6 h-6 rounded-full bg-black opacity-70 z-[9999]";
+            // Start offscreen
+            dot.style.top = "0px";
+            dot.style.left = "0px";
+            document.body.appendChild(dot);
+            cursorDots.push(dot);
+          }
+
+          window.addEventListener("mousemove", (e) => {
+            anime({
+              targets: cursorDots,
+              translateX: e.clientX - 16, // Center the dot (width 32px / 2 = 16)
+              translateY: e.clientY - 16,
+              duration: 30,
+              easing: "easeOutSine",
+              delay: anime.stagger(2), // Staggering effect for the trail
+            });
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
